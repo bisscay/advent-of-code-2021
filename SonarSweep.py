@@ -14,7 +14,11 @@ def get_part_1(depth_list):
         Return:
         increased depth count
     """
-    return depth_list
+    count = 0
+    for index in range(len(depth_list)-1):
+        if int(depth_list[index]) < int(depth_list[index+1]):
+            count += 1
+    return count
 
 def get_part_2(depth_list):
     pass
