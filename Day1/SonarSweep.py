@@ -29,12 +29,11 @@ def compute_sliding_window(depth_list):
         Return:
         list of sliding window sums
     """
-    window_list =  [] # TODO: Define list size
+    window_list =  [None] * (len(depth_list)-2)
     for index in range(2, len(depth_list)):
-        window_list.append(
-            depth_list[index-2] + depth_list[index-1]
-            + depth_list[index]
-        )
+        window_list[index-2] = (depth_list[index-2]
+                                + depth_list[index-1]
+                                + depth_list[index])
     return window_list
 
 def get_part_2(depth_list):
@@ -46,8 +45,7 @@ def get_part_2(depth_list):
         Return:
         increased depth count
     """
-    window_list = compute_sliding_window(depth_list)
-    return get_part_1(window_list)
+    return get_part_1(compute_sliding_window(depth_list))
 
 def main():
     test_input = "test-input"
