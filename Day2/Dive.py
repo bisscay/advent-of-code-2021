@@ -26,7 +26,26 @@ def get_part_1(course_list):
     return forward * depth
 
 def get_part_2(course_list):
-    pass
+    """Depth by horizontal position - New instructions
+
+        Keyword argument:
+        course_list -- list of planned course
+
+        Return:
+        Product of depth by horizontal position
+    """
+    aim = 0
+    forward = 0
+    depth = 0
+    for course in course_list:
+        if course[0] == "d":
+            aim += int(course[5:])
+        if course[0] == "u":
+            aim -= int(course[3:])
+        if course[0] == "f":
+            forward += int(course[8:])
+            depth += (aim * int(course[8:]))
+    return forward * depth
 
 def main():
     test_input = "test-input"
