@@ -14,6 +14,14 @@ def get_part_1(draw_list, board_list):
         Return:
         returned value
     """
+    # Psuedocode
+    # Place draw-list in set increamentally
+    # compare set against boar-list - contains?
+    # move through board-list on diagonal, recursivelly
+    # if not in set move to next diagonal
+    # if in set, move on row
+    # if row-cell not in set, move on column
+    # if column-cell not in set, recurse to diagonal after row and column
     print(draw_list)
     print(board_list)
 
