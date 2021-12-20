@@ -5,11 +5,23 @@
     Description: Beat squid at bingo.
 """
 
+def check_boards(board_list, draw_set):
+    # compare set against boar-list - contains?
+    # move through board-list on diagonal, recursivelly
+    # if not in set move to next diagonal
+    # if in set, move on row
+    # if row-cell not in set, move on column
+    # if column-cell not in set, recurse to diagonal after row and column
+    # for board in board_list:
+    #     print(board)
+    return 0   
+    
 def get_part_1(draw_list, board_list):
-    """Function description
+    """Play bingo
 
         Keyword argument:
-        input_list -- parameter description
+        draw_list -- parameter description
+        board_list -- parameter description
 
         Return:
         returned value
@@ -17,13 +29,14 @@ def get_part_1(draw_list, board_list):
     # Psuedocode
     # Place draw-list in set increamentally
     # compare set against boar-list - contains?
-    # move through board-list on diagonal, recursivelly
-    # if not in set move to next diagonal
-    # if in set, move on row
-    # if row-cell not in set, move on column
-    # if column-cell not in set, recurse to diagonal after row and column
-    print(draw_list)
-    print(board_list)
+    
+    draw_set = set()
+    for draw in draw_list:
+        print(draw_set)
+        draw_set.add(draw)
+        score = check_boards(board_list, draw_set)
+        if score:
+            return score
 
 def get_part_2(input_list):
     pass
@@ -36,6 +49,13 @@ def main():
 
     with open(file_name) as f:
         input_list = f.read().split("\n\n")
+
+    input_list[0]= input_list[0].split(",")
+
+    for index, board in enumerate(input_list[1:], start=1):
+        input_list[index] = board.split("\n")
+        for j, row in enumerate(input_list[index]):
+            input_list[index][j] = row.split()
 
     print("Day_1 Part_1: " 
         + str(get_part_1(input_list[0], input_list[1:])) 
