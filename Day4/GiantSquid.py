@@ -38,30 +38,45 @@ def check_board(i, j, board, draw_set): # Consider passing board-cell itself
     # if row-cell not in set, move on column
     # if column-cell not in set, recurse to diagonal after row and column
     if i >= len(board) or j >= len(board):
-        return 0
+        return False
 
     if board[i][j] not in draw_set:
         return check_board(i+1, j+1, board, draw_set)
     else:
         sum_row, next_j = get_row_sum(board[i], j, draw_set)
         if sum_row:
-            return get_unmarked_sum(board, draw_set)
+            return True
         sum_column, next_i = get_column_sum(board, i, j, draw_set)
         if sum_column:
-            return get_unmarked_sum(board, draw_set)
+            return True
         return check_board(next_i, next_j, board, draw_set)
 
 def get_score(board_list, draw_set):
     # move through boards on diagonal, recursivelly
     # compare set against board-list - contains?
-    unmarked_sum = 0
+    is_bingo = False
     for board in board_list:
-        unmarked_sum = check_board(0, 0, board, draw_set)
-        if unmarked_sum:
-            return unmarked_sum
-    return unmarked_sum
-       
+        is_bingo = check_board(0, 0, board, draw_set)
+        if is_bingo:
+            return get_unmarked_sum(board, draw_set)
+    return 0
+
+def find_board(board_list, draw_set):
+    found_boards = []
+    is_bingo = False
+    for index, board in enumerate(board_list):
+        is_bingo = check_board(0, 0, board, draw_set)
+        if is_bingo:
+            found_boards.append(index)
+
+    if len(found_boards) == len(board_list)-1:
+        for index in range(len(board_list)):
+            if index not in found_boards:
+                # print(index, len(board_list))
+                return board_list[index]
     
+    return None
+       
 def get_part_1(draw_list, board_list):
     """Play bingo
 
@@ -85,7 +100,25 @@ def get_part_1(draw_list, board_list):
     return score * int(draw)
 
 def get_part_2(draw_list, board_list):
-    pass
+    score = 0
+    draw_set = set()
+    last_board = None
+
+    for draw in draw_list:
+        draw_set.add(draw)
+        board = find_board(board_list, draw_set)
+        if board:
+            last_board = board
+            print(draw)
+            break
+    for draw in draw_list:
+        draw_set.add(draw)
+        if check_board(0, 0, last_board, draw_set):
+            # print(last_board)
+            score = get_unmarked_sum(last_board, draw_set)
+            print(draw_set)
+            return score * int(draw) # Multiply by draw here
+    return score * int(draw)
 
 def main():
     test_input = "test-input"
